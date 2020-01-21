@@ -1,0 +1,8 @@
+{
+  "appId": "com.qulix.ecommercestore",
+  "appName": "ecommerce-store",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "build",
+  "cordova": {}
+}
