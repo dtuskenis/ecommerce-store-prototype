@@ -3,12 +3,12 @@
     "version": "3.0",
     "frontend": "javascript",
     "javascript": {
-        "framework": "ionic",
+        "framework": "react",
         "config": {
             "SourceDir": "src",
             "DistributionDir": "build",
-            "BuildCommand": "ionic build",
-            "StartCommand": "ionic serve"
+            "BuildCommand": "npm run-script build",
+            "StartCommand": "npm run-script start"
         }
     },
     "providers": [

@@ -1,8 +1,8 @@
 {
-    "identityPoolName": "ecommercestorewebebddaff0_identitypool_9cec949a",
+    "identityPoolName": "ecommerce_store_webdc272ece_identitypool_dc272ece",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "ecommeebddaff0",
-    "userPoolName": "ecommercestorewebebddaff0_userpool_ebddaff0",
+    "resourceNameTruncated": "ecommedc272ece",
+    "userPoolName": "ecommerce_store_webdc272ece_userpool_dc272ece",
     "autoVerifiedAttributes": [
         "email"
     ],
@@ -17,9 +17,7 @@
     "defaultPasswordPolicy": false,
     "passwordPolicyMinLength": 8,
     "passwordPolicyCharacters": [],
-    "requiredAttributes": [
-        "email"
-    ],
+    "requiredAttributes": [],
     "userpoolClientGenerateSecret": true,
     "userpoolClientRefreshTokenValidity": 30,
     "userpoolClientWriteAttributes": [
@@ -28,10 +26,20 @@
     "userpoolClientReadAttributes": [
         "email"
     ],
-    "userpoolClientLambdaRole": "ecommeebddaff0_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "ecommedc272ece_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "resourceName": "ecommercestorewebebddaff0",
+    "useDefault": "manual",
     "authSelections": "identityPoolAndUserPool",
+    "resourceName": "ecommercestorewebdc272ecedc272ece",
+    "thirdPartyAuth": false,
+    "usernameAttributes": [
+        "email"
+    ],
+    "userPoolGroups": false,
+    "adminQueries": false,
+    "triggers": "{}",
+    "hostedUI": false,
+    "userPoolGroupList": [],
     "authRoleArn": {
         "Fn::GetAtt": [
             "AuthRole",
@@ -44,18 +52,9 @@
             "Arn"
         ]
     },
-    "useDefault": "default",
-    "usernameAttributes": [
-        "email"
-    ],
-    "userPoolGroupList": [],
-    "dependsOn": [],
-    "userPoolGroups": false,
-    "adminQueries": false,
-    "triggers": "{}",
-    "hostedUI": false,
     "parentStack": {
         "Ref": "AWS::StackId"
     },
-    "permissions": []
+    "permissions": [],
+    "dependsOn": []
 }

@@ -1,10 +1,9 @@
 {
-    "auth": {
-        "ecommercestorewebebddaff0": {
-            "service": "Cognito",
-            "providerPlugin": "awscloudformation",
-            "dependsOn": [],
-            "customAuth": false
-        }
-    }
+	"auth": {
+		"ecommercestorewebdc272ecedc272ece": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": []
+		}
+	}
 }
