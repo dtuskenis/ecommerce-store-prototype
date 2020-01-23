@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">ecommerce-store</string>
-    <string name="title_activity_main">ecommerce-store</string>
+    <string name="app_name">Store</string>
+    <string name="title_activity_main">Store</string>
     <string name="package_name">com.qulix.ecommercestore</string>
     <string name="custom_url_scheme">com.qulix.ecommercestore</string>
 </resources>
