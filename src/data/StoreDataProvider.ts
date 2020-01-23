@@ -1,5 +1,5 @@
 
-const API_ENDPOINT = "https://aje2xtl46m.execute-api.us-west-2.amazonaws.com/Prod/";
+const API_ENDPOINT = "https://o2ajbgf1q6.execute-api.us-west-2.amazonaws.com/Prod/";
 
 function getData(what: string,
                  query: Object,
