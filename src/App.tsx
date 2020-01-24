@@ -12,8 +12,9 @@ import {
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { cart, list, logIn } from 'ionicons/icons';
-import Tab1 from './pages/Tab1';
+
 import AccountPage from './pages/AccountPage';
+import BasketPage from './pages/BasketPage';
 import ProfilePage from './pages/ProfilePage';
 import Catalogue from "./pages/catalogue/Catalogue";
 
@@ -46,17 +47,17 @@ const App: React.FC = () => (
       <IonTabs>
         <IonRouterOutlet>
           <Route path="/tab0" component={Catalogue} exact={true} />
-          <Route path="/tab1" component={Tab1} exact={true} />
+          <Route path="/basket" component={BasketPage} exact={true} />
           <Route path="/account" component={AccountPage} exact={true} />
           <Route path="/account/profile" component={ProfilePage} />
-          <Route path="/" render={() => <Redirect to="/tab1" />} exact={true} />
+          <Route path="/" render={() => <Redirect to="/tab0" />} exact={true} />
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
           <IonTabButton tab="tab0" href="/tab0">
             <IonIcon icon={list} />
             <IonLabel>Каталог</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="tab1" href="/tab1">
+          <IonTabButton tab="basket" href="/basket">
             <IonIcon icon={cart} />
             <IonLabel>Корзина</IonLabel>
           </IonTabButton>

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 
-import getData from "../../data/StoreDataProvider";
+import RemoteApi from "../../data/RemoteApi";
 
 import Toolbar from "@material-ui/core/Toolbar";
 
@@ -20,9 +20,8 @@ const Categories = (props) => {
     const [categories, setCategories] = useState([]);
 
     useEffect(() =>  {
-        getData("categories", null, (results) => {
-            setCategories(results)
-        });
+        RemoteApi.get("categories", null, null)
+                 .then(results => setCategories(results));
     }, []);
 
     return (

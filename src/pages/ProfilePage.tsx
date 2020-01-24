@@ -13,7 +13,7 @@ import UserManager, {UserInfo} from "../data/UserManager";
 
 const ProfilePage: React.FC<UserInfo> = () => {
 
-    const [userInfo, setUserInfo] = useState(new UserInfo("Not logged in"));
+    const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
 
     useEffect(() => {
         UserManager.getUserInfo()
@@ -34,7 +34,7 @@ const ProfilePage: React.FC<UserInfo> = () => {
             </IonHeader>
             <IonContent>
                 <p>
-                    Email: { userInfo.email }
+                    Email: { userInfo?.email || "" }
                 </p>
             </IonContent>
         </IonPage>

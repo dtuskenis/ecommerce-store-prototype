@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 
-import getData from "../../data/StoreDataProvider";
+import RemoteApi from "../../data/RemoteApi";
 
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
@@ -11,6 +11,7 @@ import Button from "@material-ui/core/Button";
 
 import {makeStyles} from "@material-ui/core";
 import {IonThumbnail, IonImg} from "@ionic/react";
+import BasketManager from "../../data/BasketManager";
 
 const useStyles = makeStyles(() => ({
     card: {
@@ -29,11 +30,8 @@ const Products = (props) => {
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
-        getData("products", {
-            category: props.categoryId
-        }, (results) => {
-            setProducts(results)
-        });
+        RemoteApi.get("products", { category: props.categoryId }, null)
+                 .then(results => setProducts(results) );
     }, [props.categoryId]);
 
     return (
@@ -58,7 +56,7 @@ const Products = (props) => {
                             <Button  variant="contained" size="small" color="primary">
                                 Купить сейчас
                             </Button>
-                            <Button  variant="outlined" size="small" color="primary">
+                            <Button  variant="outlined" size="small" color="primary" onClick={ () => BasketManager.add(product) }>
                                 В корзину
                             </Button>
                         </CardActions>
