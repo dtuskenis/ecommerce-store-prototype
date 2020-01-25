@@ -77,15 +77,15 @@ const Navigation: React.FC = () => {
 const Tabs: React.FC = () => (
     <IonTabs>
       <IonRouterOutlet>
-        <Route path="/tab0" component={Catalogue} exact={true} />
+        <Route path="/catalogue" component={Catalogue} exact={true} />
         <Route path="/basket" component={BasketPage} exact={true} />
         <Route path="/account" component={AccountPage} exact={true} />
         <Route path="/account/profile" component={ProfilePage} />
         <Route path="/account/orders" component={OrdersPage} />
-        <Route path="/" render={() => <Redirect to="/tab0" />} exact={true} />
+        <Route path="/" render={() => <Redirect to="/catalogue" />} exact={true} />
       </IonRouterOutlet>
       <IonTabBar slot="bottom">
-        <IonTabButton tab="tab0" href="/tab0">
+        <IonTabButton tab="catalogue" href="/catalogue">
           <IonIcon icon={list} />
           <IonLabel>Каталог</IonLabel>
         </IonTabButton>

@@ -1,0 +1,23 @@
+.image {
+  height: 100px;
+  width: 100px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.title {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.price {
+  margin-top: 8px;
+}
+
+.priceText {
+  font-size: 20px;
+}
+
+.spin {
+  margin-top: 500px;
+}
