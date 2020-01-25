@@ -10,18 +10,21 @@ import {
   IonLabel,
   IonList,
   IonPage,
+  IonSpinner,
   IonText,
   IonThumbnail,
   IonTitle,
-  IonToolbar
+  IonToolbar,
 } from '@ionic/react';
-import BasketManager, {Basket, BasketEntry} from "../data/BasketManager";
 import {trash} from "ionicons/icons";
+
 import "./BasketPage.css"
+
+import BasketManager, {Basket, BasketEntry} from "../data/BasketManager";
 
 const BasketPage: React.FC = () => {
 
-  const [basket, setBasket] = useState(new Basket([]));
+  const [basket, setBasket] = useState<Basket | null>(null);
 
   useEffect(() => {
     const subscription = BasketManager.basket().subscribe(next => setBasket(next));
@@ -36,46 +39,55 @@ const BasketPage: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <IonList lines="none">
-          { basket.entries.map(basketEntry =>
-
-              <IonItem lines="full" key={ `${basketEntry.product.id}${basketEntry.quantity}` }>
-                <IonThumbnail slot="start">
-                  <IonImg src={ basketEntry.product.imageUrl } />
-                </IonThumbnail>
-                <IonLabel>
-                  <IonLabel>{ basketEntry.product.name }</IonLabel>
-
-                  <IonItem className="counterContainer">
-                    <CounterButton text="—" onClick={ () => BasketManager.decreaseQuantity(basketEntry) }/>
-                    <IonText className="counterText">{ basketEntry.quantity }</IonText>
-                    <CounterButton text="+" onClick={ () => BasketManager.increaseQuantity(basketEntry) }/>
-                  </IonItem>
-
-                </IonLabel>
-
-                <IonText>
-                  { basketEntry.product.price } x { basketEntry.quantity } = <b>{ basketEntry.product.price * basketEntry.quantity }</b> BYN
-                </IonText>
-
-                <IonButton shape="round" fill="clear" size="default" color="medium" onClick={ () => BasketManager.remove(basketEntry.product) }>
-                  <IonIcon icon={trash} />
-                </IonButton>
-              </IonItem>
-
-          ) }
-        </IonList>
+        <Content basket={ basket }/>
       </IonContent>
-      <Footer basketEntries={ basket.entries }/>
+      <Footer basketEntries={ basket?.entries || [] }/>
     </IonPage>
   );
 };
 
-type FooterProps = {
-  basketEntries: Array<BasketEntry>
-}
+const Content: React.FC<{ basket: Basket | null }> = ({ basket }) => {
+  if (basket) {
+    if (basket.entries.length === 0) {
+      return <div className="empty">
+        <IonText>В корзине пусто :(</IonText>
+      </div>
+    } else return <IonList lines="none">
+      { basket.entries.map(basketEntry => {
+        return <IonItem lines="full" key={`${basketEntry.product.id}${basketEntry.quantity}`}>
+          <IonThumbnail slot="start">
+            <IonImg src={basketEntry.product.imageUrl}/>
+          </IonThumbnail>
+          <IonLabel>
+            <IonLabel>{basketEntry.product.name}</IonLabel>
 
-const Footer: React.FC<FooterProps> = ({ basketEntries }: FooterProps) => {
+            <IonItem className="counterContainer">
+              <CounterButton text="—" onClick={() => BasketManager.decreaseQuantity(basketEntry)}/>
+              <IonText className="counterText">{basketEntry.quantity}</IonText>
+              <CounterButton text="+" onClick={() => BasketManager.increaseQuantity(basketEntry)}/>
+            </IonItem>
+
+          </IonLabel>
+
+          <IonText>
+            {basketEntry.product.price} x {basketEntry.quantity} = <b>{basketEntry.product.price * basketEntry.quantity}</b> BYN
+          </IonText>
+
+          <IonButton shape="round" fill="clear" size="default" color="medium"
+                     onClick={() => BasketManager.remove(basketEntry.product)}>
+            <IonIcon icon={trash}/>
+          </IonButton>
+        </IonItem>
+      } ) }
+    </IonList>
+  } else {
+    return <div className="loading">
+      <IonSpinner name="dots"/>
+    </div>
+  }
+};
+
+const Footer: React.FC<{ basketEntries: Array<BasketEntry> }> = ({ basketEntries }) => {
   if (basketEntries.length === 0) {
     return <div/>
   } else {
@@ -95,12 +107,7 @@ const Footer: React.FC<FooterProps> = ({ basketEntries }: FooterProps) => {
   }
 };
 
-type CounterButtonProps = {
-  text: string
-  onClick: () => void
-}
-
-const CounterButton: FunctionComponent<CounterButtonProps> = ({ text, onClick }: CounterButtonProps) => {
+const CounterButton: FunctionComponent<{ text: string, onClick: () => void }> = ({ text, onClick }) => {
   return <IonButton className="counterButton"
                     shape="round"
                     fill="outline"
