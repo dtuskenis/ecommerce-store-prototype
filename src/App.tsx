@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Amplify from "aws-amplify";
 import { Redirect, Route } from 'react-router-dom';
 import {
@@ -16,7 +16,11 @@ import { cart, list, logIn } from 'ionicons/icons';
 import AccountPage from './pages/AccountPage';
 import BasketPage from './pages/BasketPage';
 import ProfilePage from './pages/ProfilePage';
+import OrdersPage from './pages/OrdersPage';
 import Catalogue from "./pages/catalogue/Catalogue";
+import CheckoutPage from "./pages/CheckoutPage";
+
+import NavigationManager, {Destination} from "./navigation/NavigationManager";
 
 import awsconfig from './aws-exports';
 
@@ -42,33 +46,59 @@ import './theme/variables.css';
 Amplify.configure(awsconfig);
 
 const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonTabs>
+    <IonApp>
+      <IonReactRouter>
         <IonRouterOutlet>
-          <Route path="/tab0" component={Catalogue} exact={true} />
-          <Route path="/basket" component={BasketPage} exact={true} />
-          <Route path="/account" component={AccountPage} exact={true} />
-          <Route path="/account/profile" component={ProfilePage} />
-          <Route path="/" render={() => <Redirect to="/tab0" />} exact={true} />
+          <Route path="/" component={Tabs}/>
+          <Route path="/checkout" component={CheckoutPage}/>
         </IonRouterOutlet>
-        <IonTabBar slot="bottom">
-          <IonTabButton tab="tab0" href="/tab0">
-            <IonIcon icon={list} />
-            <IonLabel>Каталог</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="basket" href="/basket">
-            <IonIcon icon={cart} />
-            <IonLabel>Корзина</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="account" href="/account">
-            <IonIcon icon={logIn} />
-            <IonLabel>Аккаунт</IonLabel>
-          </IonTabButton>
-        </IonTabBar>
-      </IonTabs>
-    </IonReactRouter>
-  </IonApp>
+        <Navigation/>
+      </IonReactRouter>
+    </IonApp>
+);
+
+const Navigation: React.FC = () => {
+  const [route, setRoute] = useState<Destination | null>(null);
+
+  useEffect(() => {
+    const subscription = NavigationManager.route()
+                                          .subscribe(route => setRoute(route));
+    return () => subscription.unsubscribe()
+  }, []);
+
+  switch (route) {
+    case Destination.ROOT:
+      return <Redirect to="/" />;
+    default:
+      return <div/>
+  }
+};
+
+const Tabs: React.FC = () => (
+    <IonTabs>
+      <IonRouterOutlet>
+        <Route path="/tab0" component={Catalogue} exact={true} />
+        <Route path="/basket" component={BasketPage} exact={true} />
+        <Route path="/account" component={AccountPage} exact={true} />
+        <Route path="/account/profile" component={ProfilePage} />
+        <Route path="/account/orders" component={OrdersPage} />
+        <Route path="/" render={() => <Redirect to="/tab0" />} exact={true} />
+      </IonRouterOutlet>
+      <IonTabBar slot="bottom">
+        <IonTabButton tab="tab0" href="/tab0">
+          <IonIcon icon={list} />
+          <IonLabel>Каталог</IonLabel>
+        </IonTabButton>
+        <IonTabButton tab="basket" href="/basket">
+          <IonIcon icon={cart} />
+          <IonLabel>Корзина</IonLabel>
+        </IonTabButton>
+        <IonTabButton tab="account" href="/account">
+          <IonIcon icon={logIn} />
+          <IonLabel>Аккаунт</IonLabel>
+        </IonTabButton>
+      </IonTabBar>
+    </IonTabs>
 );
 
 export default App;

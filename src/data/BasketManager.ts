@@ -3,7 +3,6 @@ import UserManager from "./UserManager";
 import Product from "./Product";
 import {BehaviorSubject, defer, Observable, of} from "rxjs";
 import {concatAll, debounceTime} from "rxjs/operators";
-import AuthSessionManager from "./AuthSessionManager";
 
 export class BasketEntry {
     constructor(public product: Product,
@@ -22,16 +21,15 @@ basketUpdates
     )
     .subscribe(basket => {
         if (basket) {
-            AuthSessionManager.accessToken()
-                .then(accessToken => UserManager.getUserInfo()
-                    .then(userInfo => {
-                        if (accessToken && userInfo) {
+            UserManager.getUser()
+                .then(user => {
+                        if (user) {
                             return RemoteApi.post("basket",
-                                                  { user: userInfo?.id || '' },
+                                                  { user: user.info.id },
                                                   basket.entries,
-                                                  accessToken)
+                                                  user.accessToken)
                         }
-                    }))
+                    })
         }
     });
 
@@ -45,24 +43,24 @@ const BasketManager = {
 
     basket(): Observable<Basket> {
         const getBasketFromRemote: () => Promise<Basket> = () =>
-            AuthSessionManager.accessToken()
-                .then(accessToken => UserManager.getUserInfo()
-                    .then(userInfo => {
-                        if (accessToken && userInfo) {
+            UserManager.getUser()
+                    .then(user => {
+                        if (user) {
                             return RemoteApi.get("basket",
-                                                 { user: userInfo?.id || '' },
-                                                 accessToken)
+                                                 { user: user.info.id },
+                                                 user.accessToken)
+                                .then(response => {
+                                    const basketEntriesRaw: Array<any> = response;
+                                    const basket = new Basket(basketEntriesRaw.map(entry => new BasketEntry(entry.product,
+                                                                                                            entry.quantity)));
+                                    localBasket.next(basket);
+                                    return basket
+                                })
                         } else {
-                            return []
+                            return localBasket.value
                         }
-                    }))
-                .then(response => {
-                    const basketEntriesRaw: Array<any> = response;
-                    const basket = new Basket(basketEntriesRaw.map(entry => new BasketEntry(entry.product,
-                                                                                            entry.quantity)));
-                    localBasket.next(basket);
-                    return basket
-                });
+                    })
+        ;
         return of(defer(() => getBasketFromRemote()), localBasket)
                 .pipe(concatAll())
     },
@@ -106,6 +104,10 @@ const BasketManager = {
         updateBasket()
     },
 
+    clear() {
+        localBasket.next(new Basket([]));
+        updateBasket()
+    }
 };
 
 export default BasketManager;

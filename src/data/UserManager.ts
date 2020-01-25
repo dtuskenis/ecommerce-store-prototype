@@ -1,5 +1,10 @@
 import {Auth} from "aws-amplify";
 
+export class User {
+    constructor(public info: UserInfo,
+                public accessToken: string) { }
+}
+
 export class UserInfo {
     constructor(public id: string,
                 public email: string) { }
@@ -7,12 +12,16 @@ export class UserInfo {
 
 const UserManager = {
 
-    getUserInfo(): Promise<UserInfo | null> {
+    getUser(): Promise<User | null> {
         return Auth.currentAuthenticatedUser()
                    .then(cognitoUser => {
                        const cognitoUserAttributes = cognitoUser.attributes;
-                       return new UserInfo(cognitoUserAttributes.sub,
-                                           cognitoUserAttributes.email)
+                       const userInfo = new UserInfo(cognitoUserAttributes.sub,
+                                                     cognitoUserAttributes.email);
+                       return Auth.currentSession()
+                           .then(session => session.getAccessToken().getJwtToken())
+                           .then(accessToken => new User(userInfo, accessToken))
+                           .catch(() => null)
                    })
                    .catch(() => null)
     }

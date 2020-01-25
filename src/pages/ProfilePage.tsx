@@ -11,15 +11,13 @@ import {
 
 import UserManager, {UserInfo} from "../data/UserManager";
 
-const ProfilePage: React.FC<UserInfo> = () => {
+const ProfilePage: React.FC = () => {
 
     const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
 
     useEffect(() => {
-        UserManager.getUserInfo()
-                   .then(maybeUserInfo => {
-                       if (maybeUserInfo) setUserInfo(maybeUserInfo)
-                   })
+        UserManager.getUser()
+                   .then(user => setUserInfo(user?.info || null))
     }, []);
 
     return (

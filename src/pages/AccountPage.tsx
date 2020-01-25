@@ -42,9 +42,9 @@ const Content: React.FC = () => {
     const [loginState, setLoginState] = useState(LoginState.UNKNOWN);
 
     useEffect(() => {
-        UserManager.getUserInfo()
-                   .then(userInfo => {
-                       if (userInfo) {
+        UserManager.getUser()
+                   .then(user => {
+                       if (user) {
                            setLoginState(LoginState.LOGGED_IN)
                        } else {
                            setLoginState(LoginState.NOT_LOGGED_IN)
@@ -55,7 +55,7 @@ const Content: React.FC = () => {
     switch (loginState) {
         case LoginState.UNKNOWN:
             return <div className="spin">
-                <IonSpinner/>
+                <IonSpinner name="dots"/>
             </div>;
         case LoginState.NOT_LOGGED_IN:
             return <Authenticator onStateChange={ (authState) => {
@@ -69,6 +69,11 @@ const Content: React.FC = () => {
                 <IonItem routerLink="/account/profile">
                     <IonLabel>
                         <h2>Профиль</h2>
+                    </IonLabel>
+                </IonItem>
+                <IonItem routerLink="/account/orders">
+                    <IonLabel>
+                        <h2>История заказов</h2>
                     </IonLabel>
                 </IonItem>
             </IonList>;

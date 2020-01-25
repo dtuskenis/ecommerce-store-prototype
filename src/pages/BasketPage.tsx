@@ -1,17 +1,21 @@
 import React, {FunctionComponent, useEffect, useState} from 'react';
 import {
   IonButton,
-  IonContent, IonFooter,
+  IonContent,
+  IonFooter,
   IonHeader,
-  IonIcon, IonImg,
+  IonIcon,
+  IonImg,
   IonItem,
   IonLabel,
   IonList,
-  IonPage, IonText, IonThumbnail,
+  IonPage,
+  IonText,
+  IonThumbnail,
   IonTitle,
   IonToolbar
 } from '@ionic/react';
-import BasketManager, {Basket} from "../data/BasketManager";
+import BasketManager, {Basket, BasketEntry} from "../data/BasketManager";
 import {trash} from "ionicons/icons";
 import "./BasketPage.css"
 
@@ -62,16 +66,33 @@ const BasketPage: React.FC = () => {
           ) }
         </IonList>
       </IonContent>
-      <IonFooter>
-        <IonToolbar>
-          <IonText className="summaryText">
-            Итого: <b>{ basket.entries.map(e => e.product.price * e.quantity).reduce((a, b) => a + b, 0) }</b> BYN
-          </IonText>
-        </IonToolbar>
-      </IonFooter>
-
+      <Footer basketEntries={ basket.entries }/>
     </IonPage>
   );
+};
+
+type FooterProps = {
+  basketEntries: Array<BasketEntry>
+}
+
+const Footer: React.FC<FooterProps> = ({ basketEntries }: FooterProps) => {
+  if (basketEntries.length === 0) {
+    return <div/>
+  } else {
+    return <IonFooter >
+      <IonItem>
+        <IonToolbar>
+          <IonText className="summaryText">
+            Итого: <b>{ basketEntries.map(e => e.product.price * e.quantity).reduce((a, b) => a + b, 0) }</b> BYN
+          </IonText>
+        </IonToolbar>
+        <IonLabel/>
+        <IonButton size="default" routerLink="/checkout">
+          Оформить заказ
+        </IonButton>
+      </IonItem>
+    </IonFooter>
+  }
 };
 
 type CounterButtonProps = {
