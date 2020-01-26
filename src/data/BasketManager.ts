@@ -106,10 +106,6 @@ const BasketManager = {
     remove(product: Product) {
         updateBasket(entries => entries.filter(p => p.product.id !== product.id))
     },
-
-    clear() {
-        updateBasket(() => [])
-    }
 };
 
 export default BasketManager;

@@ -57,7 +57,6 @@ const CheckoutPage: React.FC = () => {
                                    setIsOrdering(true);
                                    OrdersManager.makeOrder(basket.entries).then(() => {
                                        setIsOrdering(false);
-                                       BasketManager.clear();
                                        NavigationController.navigateToRoot()
                                    }).catch(error => {
                                        setIsOrdering(false);
