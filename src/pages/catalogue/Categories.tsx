@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {
-    IonButton, IonContent,
-    IonItem,
+    IonButton,
 } from "@ionic/react";
 
 import "./Categories.css"
