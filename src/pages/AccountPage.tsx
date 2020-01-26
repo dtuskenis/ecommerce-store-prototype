@@ -61,7 +61,8 @@ const Content: React.FC = () => {
             return <Authenticator onStateChange={ (authState) => {
 
                 if (authState === "signedIn") {
-                    setLoginState(LoginState.LOGGED_IN)
+                    setLoginState(LoginState.LOGGED_IN);
+                    UserManager.updateUser()
                 }
             } }/>;
         case LoginState.LOGGED_IN:

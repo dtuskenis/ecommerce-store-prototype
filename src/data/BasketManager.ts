@@ -1,8 +1,8 @@
 import RemoteApi from "./RemoteApi";
-import UserManager from "./UserManager";
+import UserManager, {User} from "./UserManager";
 import Product from "./Product";
-import {BehaviorSubject, defer, Observable, of} from "rxjs";
-import {concatAll, debounceTime} from "rxjs/operators";
+import {BehaviorSubject, defer, Observable, of, Subject} from "rxjs";
+import {debounceTime, switchMap, tap} from "rxjs/operators";
 
 export class BasketEntry {
     constructor(public product: Product,
@@ -13,100 +13,102 @@ export class Basket {
     constructor(public entries: Array<BasketEntry>) { }
 }
 
-const basketUpdates = new BehaviorSubject<Basket | null>(null);
+const basketUpdates = new Subject<Basket>();
+const localBasket = new BehaviorSubject<Basket | null>(null);
 
 basketUpdates
     .pipe(
-        debounceTime(1000),
+        tap(updatedBasket => localBasket.next(updatedBasket)),
+        debounceTime(250),
     )
     .subscribe(basket => {
-        if (basket) {
-            UserManager.getUser()
-                .then(user => {
-                        if (user) {
-                            return RemoteApi.post("basket",
-                                                  { user: user.info.id },
-                                                  basket.entries,
-                                                  user.accessToken)
-                        }
-                    })
-        }
+        UserManager.getUser()
+            .then(user => {
+                if (user) {
+                    return RemoteApi.post("basket",
+                                          { user: user.info.id },
+                                          basket.entries,
+                                          user.accessToken)
+                }
+            })
     });
 
-function updateBasket() {
-    basketUpdates.next(localBasket.value);
-}
+const getBasketFromRemote:  (user: User) => Promise<Basket> = (user) =>
+    RemoteApi.get("basket",
+                  { user: user.info.id },
+                  user.accessToken)
+        .then(response => {
+            const basketEntriesRaw: Array<any> = response;
+            const basket = new Basket(basketEntriesRaw.map(entry => new BasketEntry(entry.product,
+                                                                                    entry.quantity)));
+            localBasket.next(basket);
+            return basket
+        });
 
-const localBasket = new BehaviorSubject<Basket>(new Basket([]));
+UserManager.onUserChanged()
+    .pipe(
+        switchMap(user => {
+            if (user) {
+                return defer(() => getBasketFromRemote(user))
+            } else {
+                return of<Basket>()
+            }
+        })
+    )
+    .subscribe(basket => {
+        localBasket.next(basket)
+    });
+
+function updateBasket(updateFunction: (entries: Array<BasketEntry>) => Array<BasketEntry>) {
+    const currentBasket = localBasket.value;
+    if (currentBasket) {
+        basketUpdates.next(new Basket(updateFunction(currentBasket.entries)));
+    }
+}
 
 const BasketManager = {
 
-    basket(): Observable<Basket> {
-        const getBasketFromRemote: () => Promise<Basket> = () =>
-            UserManager.getUser()
-                    .then(user => {
-                        if (user) {
-                            return RemoteApi.get("basket",
-                                                 { user: user.info.id },
-                                                 user.accessToken)
-                                .then(response => {
-                                    const basketEntriesRaw: Array<any> = response;
-                                    const basket = new Basket(basketEntriesRaw.map(entry => new BasketEntry(entry.product,
-                                                                                                            entry.quantity)));
-                                    localBasket.next(basket);
-                                    return basket
-                                })
-                        } else {
-                            return localBasket.value
-                        }
-                    })
-        ;
-        return of(defer(() => getBasketFromRemote()), localBasket)
-                .pipe(concatAll())
+    basket(): Observable<Basket | null> {
+        return localBasket
     },
 
     add(product: Product) {
-        const existing = localBasket.value.entries.find(e => e.product.id === product.id);
+        const existing = localBasket.value?.entries.find(e => e.product.id === product.id);
         if (existing) {
             this.increaseQuantity(existing)
         } else {
-            localBasket.next(new Basket(localBasket.value.entries.concat([new BasketEntry(product, 1)])));
-            updateBasket()
+            updateBasket(entries => entries.concat([new BasketEntry(product, 1)]))
         }
     },
 
     increaseQuantity(basketEntry: BasketEntry) {
-        localBasket.next(new Basket(localBasket.value.entries.map(entry => {
+        updateBasket(entries => entries.map(entry => {
             if (entry === basketEntry) {
                 entry.quantity++;
             }
             return entry;
-        })));
-        updateBasket()
+        }))
     },
 
     decreaseQuantity(basketEntry: BasketEntry) {
         if (basketEntry.quantity === 1) {
             this.remove(basketEntry.product)
         } else {
-            localBasket.next(new Basket(localBasket.value.entries.map(entry => {
+            updateBasket(entries => entries.map(entry => {
                 if (entry === basketEntry) {
                     entry.quantity--;
                 }
                 return entry;
-            })));
-            updateBasket()
+            }))
         }
     },
 
     remove(product: Product) {
-        localBasket.next(new Basket(localBasket.value.entries.filter(p => p.product.id !== product.id)));
-        updateBasket()
+        updateBasket(entries => entries.filter(p => p.product.id !== product.id))
     },
 
     clear() {
-        localBasket.next(new Basket([]));
-        updateBasket()
+        updateBasket(() => [])
     }
 };
 

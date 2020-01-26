@@ -1,4 +1,5 @@
 import {Auth} from "aws-amplify";
+import {Observable, Subject} from "rxjs";
 
 export class User {
     constructor(public info: UserInfo,
@@ -9,6 +10,8 @@ export class UserInfo {
     constructor(public id: string,
                 public email: string) { }
 }
+
+const userUpdates = new Subject<User | null>();
 
 const UserManager = {
 
@@ -24,7 +27,17 @@ const UserManager = {
                            .catch(() => null)
                    })
                    .catch(() => null)
+    },
+
+    onUserChanged(): Observable<User | null> {
+        return userUpdates
+    },
+
+    updateUser() {
+        this.getUser().then(user => userUpdates.next(user));
     }
 };
+
+UserManager.updateUser();
 
 export default UserManager;
