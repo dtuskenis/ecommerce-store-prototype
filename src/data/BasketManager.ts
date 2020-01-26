@@ -51,7 +51,7 @@ UserManager.onUserChanged()
             if (user) {
                 return defer(() => getBasketFromRemote(user))
             } else {
-                return of<Basket>()
+                return of<Basket>(new Basket([]))
             }
         })
     )
