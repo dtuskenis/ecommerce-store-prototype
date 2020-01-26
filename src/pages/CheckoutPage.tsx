@@ -23,7 +23,7 @@ import "./CheckoutPage.css"
 
 import BasketManager, {Basket} from "../data/BasketManager";
 import OrdersManager from "../data/OrdersManager";
-import NavigationManager from "../navigation/NavigationManager";
+import NavigationController from "../navigation/NavigationController";
 
 const CheckoutPage: React.FC = () => {
 
@@ -51,14 +51,14 @@ const CheckoutPage: React.FC = () => {
             <IonFooter  className="footer">
                 <IonButton size="default"
                            className="submit"
-                           disabled={ !basket || isOrdering }
+                           disabled={ !basket || basket.entries.length === 0 || isOrdering }
                            onClick={ () => {
                                if (basket) {
                                    setIsOrdering(true);
                                    OrdersManager.makeOrder(basket.entries).then(() => {
                                        setIsOrdering(false);
                                        BasketManager.clear();
-                                       NavigationManager.navigateToRoot()
+                                       NavigationController.navigateToRoot()
                                    }).catch(error => {
                                        setIsOrdering(false);
                                        console.log(error);

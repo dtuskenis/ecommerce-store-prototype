@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import Amplify from "aws-amplify";
 import { Redirect, Route } from 'react-router-dom';
 import {
@@ -19,8 +19,6 @@ import ProfilePage from './pages/ProfilePage';
 import OrdersPage from './pages/OrdersPage';
 import Catalogue from "./pages/catalogue/Catalogue";
 import CheckoutPage from "./pages/CheckoutPage";
-
-import NavigationManager, {Destination} from "./navigation/NavigationManager";
 
 import awsconfig from './aws-exports';
 
@@ -52,27 +50,9 @@ const App: React.FC = () => (
           <Route path="/checkout" component={CheckoutPage}/>
           <Route path="/" component={Tabs}/>
         </IonRouterOutlet>
-        <Navigation/>
       </IonReactRouter>
     </IonApp>
 );
-
-const Navigation: React.FC = () => {
-  const [route, setRoute] = useState<Destination | null>(null);
-
-  useEffect(() => {
-    const subscription = NavigationManager.route()
-                                          .subscribe(route => setRoute(route));
-    return () => subscription.unsubscribe()
-  }, []);
-
-  switch (route) {
-    case Destination.ROOT:
-      return <Redirect to="/" />;
-    default:
-      return <div/>
-  }
-};
 
 const Tabs: React.FC = () => (
     <IonTabs>
