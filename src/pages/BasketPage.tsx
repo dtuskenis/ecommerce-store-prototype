@@ -70,7 +70,7 @@ const Content: React.FC<{ basket: Basket | null }> = ({ basket }) => {
           </IonLabel>
 
           <IonText>
-            {basketEntry.product.price} x {basketEntry.quantity} = <b>{basketEntry.product.price * basketEntry.quantity}</b> BYN
+            <b>{basketEntry.product.price * basketEntry.quantity}</b> BYN
           </IonText>
 
           <IonButton shape="round" fill="clear" size="default" color="medium"
