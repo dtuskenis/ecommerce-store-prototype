@@ -1,6 +1,6 @@
 .image {
-  height: 100px;
-  width: 100px;
+  height: 72px;
+  width: 72px;
   margin-top: 8px;
   margin-bottom: 8px;
 }
@@ -15,7 +15,8 @@
 }
 
 .priceText {
-  font-size: 20px;
+  font-size: 16px;
+  margin-right: 8px;
 }
 
 .spin {

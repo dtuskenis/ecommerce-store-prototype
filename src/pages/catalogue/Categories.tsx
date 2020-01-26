@@ -26,6 +26,7 @@ const Categories: React.FC<Props> = (props) => {
             { categories.map((category) => (
                 <IonButton shape="round"
                            fill="outline"
+                           size="small"
                            color="dark"
                            key={ category.id }
                            onClick={ () => props.onCategorySelected(category.id) }>

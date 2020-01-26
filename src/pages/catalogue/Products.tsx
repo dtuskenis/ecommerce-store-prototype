@@ -30,7 +30,7 @@ const Products: React.FC<{ categoryId: number, query: string }> = ({ categoryId,
         return <IonList>
             { products?.map(product => (
                 <IonCard key={ product.id }>
-                    <IonItem button={true}>
+                    <IonItem  lines="none">
                         <div>
                             <IonImg className="image" src={ product.imageUrl } />
                         </div>
@@ -39,6 +39,7 @@ const Products: React.FC<{ categoryId: number, query: string }> = ({ categoryId,
 
                             <IonLabel className="price" color="primary">
                                 <IonText className="priceText">{ product.price } BYN</IonText>
+
                             </IonLabel>
                         </IonLabel>
                         <IonButton onClick={ () => BasketManager.add(product) }>
