@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {
-    IonButton,
+    IonButton, IonContent,
     IonItem,
 } from "@ionic/react";
 
@@ -23,7 +23,7 @@ const Categories: React.FC<Props> = (props) => {
     }, []);
 
     return (
-        <IonItem className="container" lines="none">
+        <div className="container">
             { categories.map((category) => (
                 <IonButton shape="round"
                            fill="outline"
@@ -33,7 +33,7 @@ const Categories: React.FC<Props> = (props) => {
                     { category.name }
                 </IonButton>
             ))}
-        </IonItem>
+        </div>
     )
 };
 
