@@ -1,14 +1,14 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Amplify from "aws-amplify";
 import { Redirect, Route } from 'react-router-dom';
 import {
-  IonApp,
-  IonIcon,
-  IonLabel,
-  IonRouterOutlet,
-  IonTabBar,
-  IonTabButton,
-  IonTabs
+    IonApp, IonBadge,
+    IonIcon,
+    IonLabel,
+    IonRouterOutlet,
+    IonTabBar,
+    IonTabButton,
+    IonTabs
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { cart, list, logIn } from 'ionicons/icons';
@@ -40,6 +40,7 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import BasketManager from "./data/BasketManager";
 
 Amplify.configure(awsconfig);
 
@@ -72,6 +73,7 @@ const Tabs: React.FC = () => (
         <IonTabButton tab="basket" href="/basket">
           <IonIcon icon={cart} />
           <IonLabel>Корзина</IonLabel>
+          <BasketLengthBadge/>
         </IonTabButton>
         <IonTabButton tab="account" href="/account">
           <IonIcon icon={logIn} />
@@ -80,5 +82,20 @@ const Tabs: React.FC = () => (
       </IonTabBar>
     </IonTabs>
 );
+
+const BasketLengthBadge: React.FC = () => {
+    const [basketLength, setBasketLength] = useState<number>(0);
+
+    useEffect(() => {
+        const subscription = BasketManager.basket().subscribe(basket => setBasketLength(basket?.entries.length || 0))
+        return () => subscription.unsubscribe()
+    }, []);
+
+    if (basketLength > 0) {
+        return <IonBadge color="danger">{basketLength}</IonBadge>
+    } else {
+        return <div/>
+    }
+};
 
 export default App;
