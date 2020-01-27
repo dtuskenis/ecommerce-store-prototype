@@ -19,6 +19,8 @@ import ProfilePage from './pages/ProfilePage';
 import OrdersPage from './pages/OrdersPage';
 import Catalogue from "./pages/catalogue/Catalogue";
 import CheckoutPage from "./pages/CheckoutPage";
+import BasketManager from "./data/BasketManager";
+import Push from './push/Push';
 
 import awsconfig from './aws-exports';
 
@@ -40,12 +42,14 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import BasketManager from "./data/BasketManager";
 
 Amplify.configure(awsconfig);
 
-const App: React.FC = () => (
-    <IonApp>
+const App: React.FC = () => {
+    useEffect(() => {
+      Push.register();
+    }, []);
+    return <IonApp>
       <IonReactRouter>
         <IonRouterOutlet>
           <Route path="/checkout" component={CheckoutPage}/>
@@ -53,7 +57,7 @@ const App: React.FC = () => (
         </IonRouterOutlet>
       </IonReactRouter>
     </IonApp>
-);
+};
 
 const Tabs: React.FC = () => (
     <IonTabs>

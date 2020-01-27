@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "418202053718",
+    "firebase_url": "https://ecommerce-store-80057.firebaseio.com",
+    "project_id": "ecommerce-store-80057",
+    "storage_bucket": "ecommerce-store-80057.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:418202053718:android:70ca8bf1b8e88185685ff7",
+        "android_client_info": {
+          "package_name": "com.qulix.ecommercestore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "418202053718-0juhkrp84gaml3vv3l7121sto611n55q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUrljJpQQvILq-4ot0hdpJlgEYW2xzdC8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "418202053718-0juhkrp84gaml3vv3l7121sto611n55q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
