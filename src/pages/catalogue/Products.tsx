@@ -32,7 +32,7 @@ const Products: React.FC<{ categoryId: number, query: string }> = ({ categoryId,
                 <IonCard key={ product.id }>
                     <IonItem  lines="none">
                         <div>
-                            <IonImg className="image" src={ product.imageUrl } />
+                            <IonImg className="list-item-image" src={ product.imageUrl } />
                         </div>
                         <IonLabel className="title">
                             <IonLabel slot="start">{ product.name }</IonLabel>

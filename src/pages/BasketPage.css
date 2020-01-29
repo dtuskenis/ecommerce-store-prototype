@@ -1,28 +1,44 @@
-.counterContainer {
+.basket-entry-counter-button {
+  width: 28px;
+  height: 28px;
+}
+
+.basket-entry-quantity {
+  margin-left: 8px;
+  margin-right: 8px;
+  min-width: 2ch;
+  text-align: center;
+}
+
+.basket-entry-trash-button {
+  --padding-start: 8px;
+  --padding-end: 8px;
+}
+
+.basket-entry-price-text {
+  text-align: right;
+}
+
+.basket-entry-title {
   --padding-start: 0;
-  --padding-end: 0;
-  --padding-top: 0;
-  --padding-bottom: 0;
 }
 
-.counterButton {
+.basket-entry-title-text {
+  font-family: Roboto, sans-serif;
   font-size: 16px;
-  font-family: monospace;
-  width: 24px;
-  height: 24px;
+  float: left;
+  margin-left: 4px;
 }
 
-.counterText {
-  margin-left: 12px;
-  margin-right: 12px;
+.basket-entry-summary {
+  font-family: Roboto, sans-serif;
+  font-size: 16px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
-.summaryText {
-  margin: 12px;
-  alignment: right;
-}
-
-.loading {
+.basket-loading {
   position: fixed;
   z-index: 999;
   height: 2em;
@@ -35,9 +51,20 @@
   right: 0;
 }
 
-.empty {
+.basket-empty {
   height: 10em;
   display: flex;
   align-items: center;
   justify-content: center
+}
+
+.basket-submit {
+  --padding-top:0;
+  float: right;
+}
+
+.basket-summary-container {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  position: relative;
 }

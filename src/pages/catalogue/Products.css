@@ -1,8 +1,7 @@
-.image {
-  height: 72px;
-  width: 72px;
-  margin-top: 8px;
-  margin-bottom: 8px;
+.list-item-image {
+  height: 54px;
+  width: 54px;
+  margin: 8px;
 }
 
 .title {
