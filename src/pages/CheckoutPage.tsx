@@ -12,9 +12,7 @@ import {
     IonFooter,
     IonItem,
     IonText,
-    IonLabel,
     IonButton,
-    IonThumbnail,
     IonImg,
     IonLoading,
 } from '@ionic/react';
@@ -83,17 +81,20 @@ const BasketView: React.FC<BasketViewProps> = ({ basket }: BasketViewProps) => {
         return <IonContent>
             <IonList>
                 { basket.entries.map(basketEntry => {
+                    const price = basketEntry.product.price;
+                    const quantity = basketEntry.quantity;
                     return <IonItem lines="full" key={`${basketEntry.product.id}${basketEntry.quantity}`}>
-                        <IonThumbnail slot="start">
-                            <IonImg src={basketEntry.product.imageUrl}/>
-                        </IonThumbnail>
-                        <IonLabel>
-                            <IonLabel>{basketEntry.product.name}</IonLabel>
-
-                        </IonLabel>
-                        <IonText>
-                            {basketEntry.product.price} x {basketEntry.quantity} = <b>{basketEntry.product.price * basketEntry.quantity}</b> BYN
-                        </IonText>
+                        <div className="checkout-entry">
+                            <IonItem className="basket-entry-title" lines="none">
+                                <div>
+                                    <IonImg className="list-item-image" src={ basketEntry.product.imageUrl } />
+                                </div>
+                                <IonText className="basket-entry-title-text">{basketEntry.product.name}></IonText>
+                            </IonItem>
+                            <IonText className="checkout-entry-price">
+                                {price} x {quantity} = <b>{ (price * quantity).toFixed(2) }</b> BYN
+                            </IonText>
+                        </div>
                     </IonItem>
                 } ) }
             </IonList>
