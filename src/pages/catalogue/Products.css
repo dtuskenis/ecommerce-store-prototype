@@ -4,20 +4,26 @@
   margin: 8px;
 }
 
-.title {
-  padding-left: 16px;
-  padding-right: 16px;
+.products-list-item {
+  --padding-start: 0;
 }
 
-.price {
-  margin-top: 8px;
-}
-
-.priceText {
-  font-size: 16px;
+.product-list-item-title {
   margin-right: 8px;
+  margin-left: 8px;
 }
 
-.spin {
-  margin-top: 500px;
+.products-list-item-title-text {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+}
+
+.products-list-item-price {
+  margin-top: 8px;
+  float: right;
+}
+
+.products-list-item-price-text {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
 }

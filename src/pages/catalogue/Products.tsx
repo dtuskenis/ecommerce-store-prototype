@@ -2,12 +2,12 @@ import React, {useEffect, useState} from "react";
 import {
     IonImg,
     IonCard,
-    IonButton,
     IonList,
     IonItem,
     IonText,
     IonLabel,
     IonProgressBar,
+    IonIcon,
 } from "@ionic/react";
 
 import "./Products.css"
@@ -15,6 +15,7 @@ import "./Products.css"
 import BasketManager from "../../data/BasketManager";
 import Product from "../../data/Product";
 import ProductsManager from "../../data/ProductsManager";
+import { arrowForward } from "ionicons/icons";
 
 const Products: React.FC<{ categoryId: number, query: string }> = ({ categoryId, query }) => {
 
@@ -29,22 +30,20 @@ const Products: React.FC<{ categoryId: number, query: string }> = ({ categoryId,
     if (products) {
         return <IonList>
             { products?.map(product => (
-                <IonCard key={ product.id }>
-                    <IonItem  lines="none">
+                <IonCard key={ product.id } button={ true } onClick={ () => BasketManager.add(product) }>
+                    <IonItem  className="products-list-item"  lines="none">
                         <div>
                             <IonImg className="list-item-image" src={ product.imageUrl } />
                         </div>
-                        <IonLabel className="title">
-                            <IonLabel slot="start">{ product.name }</IonLabel>
+                        <IonLabel className="product-list-item-title">
+                            <IonText className="products-list-item-title-text" slot="start">{ product.name }</IonText>
 
-                            <IonLabel className="price" color="primary">
-                                <IonText className="priceText">{ product.price } BYN</IonText>
-
+                            <IonLabel className="products-list-item-price" color="primary">
+                                <IonText className="products-list-item-price-text">{ product.price } BYN</IonText>
                             </IonLabel>
                         </IonLabel>
-                        <IonButton onClick={ () => BasketManager.add(product) }>
-                            В корзину
-                        </IonButton>
+
+                        <IonIcon icon={ arrowForward } size="small" color="medium"></IonIcon>
                     </IonItem>
                 </IonCard>
             )) }
