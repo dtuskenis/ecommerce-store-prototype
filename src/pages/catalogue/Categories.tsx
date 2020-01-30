@@ -8,11 +8,7 @@ import "./Categories.css"
 import RemoteApi from "../../data/RemoteApi";
 import Category from "../../data/Category";
 
-type Props = {
-    onCategorySelected: (id: number) => void
-}
-
-const Categories: React.FC<Props> = (props) => {
+const Categories: React.FC = () => {
 
     const [categories, setCategories] = useState<Array<Category>>([]);
 
@@ -29,7 +25,7 @@ const Categories: React.FC<Props> = (props) => {
                            size="small"
                            color="dark"
                            key={ category.id }
-                           onClick={ () => props.onCategorySelected(category.id) }>
+                           routerLink={ "catalogue/" + category.id }>
                     { category.name }
                 </IonButton>
             ))}

@@ -42,6 +42,7 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import Category from "./pages/catalogue/Category";
 
 Amplify.configure(awsconfig);
 
@@ -53,6 +54,7 @@ const App: React.FC = () => {
       <IonReactRouter>
         <IonRouterOutlet>
           <Route path="/checkout" component={CheckoutPage}/>
+          <Route path="/catalogue/:id" component={Category} />
           <Route path="/" component={Tabs}/>
         </IonRouterOutlet>
       </IonReactRouter>

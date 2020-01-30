@@ -17,7 +17,7 @@ import Product from "../../data/Product";
 import ProductsManager from "../../data/ProductsManager";
 import { arrowForward } from "ionicons/icons";
 
-const Products: React.FC<{ categoryId: number, query: string }> = ({ categoryId, query }) => {
+const Products: React.FC<{ categoryId: number | null, query: string }> = ({ categoryId, query }) => {
 
     const [products, setProducts] = useState<Array<Product> | null>(null);
 
@@ -43,7 +43,7 @@ const Products: React.FC<{ categoryId: number, query: string }> = ({ categoryId,
                             </IonLabel>
                         </IonLabel>
 
-                        <IonIcon icon={ arrowForward } size="small" color="medium"></IonIcon>
+                        <IonIcon icon={ arrowForward } size="small" color="medium"/>
                     </IonItem>
                 </IonCard>
             )) }

@@ -7,13 +7,19 @@ const searchQuery = new BehaviorSubject<string>("");
 
 const ProductsManager = {
 
-    getProducts(categoryId: number): Observable<Array<Product>> {
+    getProducts(categoryId: number | null): Observable<Array<Product>> {
+        
         return searchQuery.pipe(
             debounceTime(250),
-            switchMap(query => defer(() =>
-                                         RemoteApi.get("products",
-                                                       { category: categoryId, query: query },
-                                                       null)))
+            switchMap(query => defer(() => {
+                const queryObject: any = {
+                    query: query
+                };
+                if (categoryId) {
+                    queryObject.category = categoryId
+                }
+                return RemoteApi.get("products", queryObject, null)
+            }))
         )
     },
 
