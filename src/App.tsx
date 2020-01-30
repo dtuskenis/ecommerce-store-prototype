@@ -55,6 +55,8 @@ const App: React.FC = () => {
         <IonRouterOutlet>
           <Route path="/checkout" component={CheckoutPage}/>
           <Route path="/catalogue/:id" component={Category} />
+          <Route path="/account/profile" component={ProfilePage} />
+          <Route path="/account/orders" component={OrdersPage} />
           <Route path="/" component={Tabs}/>
         </IonRouterOutlet>
       </IonReactRouter>
@@ -67,8 +69,6 @@ const Tabs: React.FC = () => (
         <Route path="/catalogue" component={Catalogue} exact={true} />
         <Route path="/basket" component={BasketPage} exact={true} />
         <Route path="/account" component={AccountPage} exact={true} />
-        <Route path="/account/profile" component={ProfilePage} />
-        <Route path="/account/orders" component={OrdersPage} />
         <Route path="/" render={() => <Redirect to="/catalogue" />} exact={true} />
       </IonRouterOutlet>
       <IonTabBar slot="bottom">
