@@ -8,6 +8,7 @@ import {
     IonLabel,
     IonProgressBar,
     IonIcon,
+    IonBadge,
 } from "@ionic/react";
 
 import "./Products.css"
@@ -34,11 +35,13 @@ const Products: React.FC<{ categoryId: number | null, query: string }> = ({ cate
                     <IonItem  className="products-list-item"  lines="none">
                         <div>
                             <IonImg className="list-item-image" src={ product.imageUrl } />
+                            <DiscountBadge product={ product }/>
                         </div>
                         <IonLabel className="product-list-item-title">
                             <IonText className="products-list-item-title-text" slot="start">{ product.name }</IonText>
 
                             <IonLabel className="products-list-item-price" color="primary">
+                                <DiscountText product={ product }/>
                                 <IonText className="products-list-item-price-text">{ product.price } BYN</IonText>
                             </IonLabel>
                         </IonLabel>
@@ -50,6 +53,24 @@ const Products: React.FC<{ categoryId: number | null, query: string }> = ({ cate
         </IonList>
     } else {
         return <IonProgressBar type="indeterminate" />
+    }
+};
+
+const DiscountText: React.FC<{ product: Product }> = ({product}) => {
+    const discount = product.discount;
+    if (discount) {
+        return <IonText className="products-list-item-price-discount">{ (product.price / (1 - discount)).toFixed(2)  }</IonText>
+    } else {
+        return <div/>
+    }
+};
+
+const DiscountBadge: React.FC<{ product: Product }> = ({ product }) => {
+    const discount = product.discount;
+    if (discount) {
+        return <IonBadge className="product-list-item-discount-badge" color="danger">-{ Math.round(discount * 100) }%</IonBadge>
+    } else {
+        return <div/>
     }
 };
 

@@ -27,3 +27,19 @@
   font-family: 'Roboto', sans-serif;
   font-size: 14px;
 }
+
+.products-list-item-price-discount {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  color: red;
+  margin-right: 8px;
+  text-decoration: line-through
+}
+
+.product-list-item-discount-badge {
+  position: absolute;
+  margin: 4px;
+  top: 0;
+  width: 40px;
+  left: 24px;
+}
