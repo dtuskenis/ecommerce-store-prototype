@@ -63,7 +63,7 @@ const CheckoutPage: React.FC = () => {
                                }
                            } }>
                     <IonText>
-                        Оплатить <b>{ (basket?.entries || []).map(e => e.product.price * e.quantity).reduce((a, b) => a + b, 0) }</b> BYN
+                        Оплатить <b>{ (basket?.entries || []).map(e => e.product.price * e.quantity).reduce((a, b) => a + b, 0).toFixed(2) }</b> BYN
                     </IonText>
                 </IonButton>
             </IonFooter>
