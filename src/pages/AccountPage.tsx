@@ -52,6 +52,10 @@ const Content: React.FC = () => {
                    });
     }, []);
 
+    const logout = () => {
+        UserManager.logout().then(() => setLoginState(LoginState.NOT_LOGGED_IN))
+    };
+
     switch (loginState) {
         case LoginState.UNKNOWN:
             return <div className="spin">
@@ -75,6 +79,11 @@ const Content: React.FC = () => {
                 <IonItem routerLink="/account/orders">
                     <IonLabel>
                         <h2>История заказов</h2>
+                    </IonLabel>
+                </IonItem>
+                <IonItem onClick={ () => logout()  }>
+                    <IonLabel color="danger">
+                        <h2>Выйти</h2>
                     </IonLabel>
                 </IonItem>
             </IonList>;

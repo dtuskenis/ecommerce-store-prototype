@@ -35,6 +35,10 @@ const UserManager = {
 
     updateUser() {
         this.getUser().then(user => userUpdates.next(user));
+    },
+
+    logout(): Promise<any> {
+        return Auth.signOut()
     }
 };
 
