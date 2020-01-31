@@ -42,4 +42,7 @@
   top: 0;
   width: 40px;
   left: 24px;
+  text-align: center;
+  --padding-start: 0;
+  --padding-end: 0;
 }
