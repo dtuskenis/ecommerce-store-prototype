@@ -1,20 +1,37 @@
-.footer {
-  background-color: #ffffff;
-  padding: 8px;
-  text-align: center;
+:root {
+  --checkout-submit-height: 48px;
+  --checkout-footer-padding: 8px;
 }
 
-.submit {
+.checkout-footer {
+  text-align: center;
+  position: absolute;
+  width: 100%;
+  bottom: 0px;
+  left: 0px;
+}
+
+.checkout-footer-content {
+  padding: var(--checkout-footer-padding);
+  background-color: white;
+}
+
+.checkout-submit {
   max-width: 320px;
   width: 100%;
+  height: var(--checkout-submit-height);
 }
 
-.checkout-entry {
+.checkout-basket {
+  margin-bottom: calc(var(--checkout-submit-height) + var(--checkout-footer-padding) * 3);
+}
+
+.checkout-basket-entry {
   margin-right: 8px;
   width: 100%;
 }
 
-.checkout-entry-price {
+.checkout-basket-entry-price {
   float: right;
   margin-bottom: 8px;
 }

@@ -46,26 +46,28 @@ const CheckoutPage: React.FC = () => {
             <IonContent>
                 <BasketView basket={ basket }/>
             </IonContent>
-            <IonFooter  className="footer">
-                <IonButton size="default"
-                           className="submit"
-                           disabled={ !basket || basket.entries.length === 0 || isOrdering }
-                           onClick={ () => {
-                               if (basket) {
-                                   setIsOrdering(true);
-                                   OrdersManager.makeOrder(basket.entries).then(() => {
-                                       setIsOrdering(false);
-                                       NavigationController.navigateToRoot()
-                                   }).catch(error => {
-                                       setIsOrdering(false);
-                                       console.log(error);
-                                   })
-                               }
-                           } }>
-                    <IonText>
-                        Оплатить <b>{ (basket?.entries || []).map(e => e.product.price * e.quantity).reduce((a, b) => a + b, 0).toFixed(2) }</b> BYN
-                    </IonText>
-                </IonButton>
+            <IonFooter color="danger" className="checkout-footer">
+                <div className="checkout-footer-content">
+                    <IonButton size="default"
+                               className="checkout-submit"
+                               disabled={ !basket || basket.entries.length === 0 || isOrdering }
+                               onClick={ () => {
+                                    if (basket) {
+                                        setIsOrdering(true);
+                                        OrdersManager.makeOrder(basket.entries).then(() => {
+                                            setIsOrdering(false);
+                                            NavigationController.navigateToRoot()
+                                        }).catch(error => {
+                                            setIsOrdering(false);
+                                            console.log(error);
+                                        })
+                                    }
+                               } }>
+                        <IonText>
+                            Оплатить <b>{ (basket?.entries || []).map(e => e.product.price * e.quantity).reduce((a, b) => a + b, 0).toFixed(2) }</b> BYN
+                        </IonText>
+                    </IonButton>
+                </div>
             </IonFooter>
             <IonLoading isOpen={ isOrdering } message={'Оплата...'} />
         </IonPage>
@@ -78,27 +80,25 @@ type BasketViewProps = {
 
 const BasketView: React.FC<BasketViewProps> = ({ basket }: BasketViewProps) => {
     if (basket) {
-        return <IonContent>
-            <IonList>
+        return <IonList className="checkout-basket">
                 { basket.entries.map(basketEntry => {
                     const price = basketEntry.product.price;
                     const quantity = basketEntry.quantity;
                     return <IonItem lines="full" key={`${basketEntry.product.id}${basketEntry.quantity}`}>
-                        <div className="checkout-entry">
+                        <div className="checkout-basket-entry">
                             <IonItem className="basket-entry-title" lines="none">
                                 <div>
                                     <IonImg className="list-item-image" src={ basketEntry.product.imageUrl } />
                                 </div>
                                 <IonText className="basket-entry-title-text">{basketEntry.product.name}></IonText>
                             </IonItem>
-                            <IonText className="checkout-entry-price">
+                            <IonText className="checkout-basket-entry-price">
                                 {price} x {quantity} = <b>{ (price * quantity).toFixed(2) }</b> BYN
                             </IonText>
                         </div>
                     </IonItem>
                 } ) }
             </IonList>
-        </IonContent>
     } else {
         return <div className="spin">
             <IonSpinner name="dots"/>
