@@ -24,6 +24,7 @@ basketUpdates
     .subscribe(basket => {
         UserManager.getUser()
             .then(user => {
+                localStorage.setItem("basket", JSON.stringify(basket));
                 if (user) {
                     return RemoteApi.post("basket",
                                           { user: user.info.id },
@@ -51,7 +52,12 @@ UserManager.onUserChanged()
             if (user) {
                 return defer(() => getBasketFromRemote(user))
             } else {
-                return of<Basket>(new Basket([]))
+                const cachedBasket = localStorage.getItem("basket");
+                if (cachedBasket) {
+                    return of(JSON.parse(cachedBasket))
+                } else {
+                    return of(new Basket([]))
+                }
             }
         })
     )
