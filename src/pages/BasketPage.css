@@ -24,14 +24,12 @@
 }
 
 .basket-entry-title-text {
-  font-family: Roboto, sans-serif;
   font-size: 16px;
   float: left;
   margin-left: 4px;
 }
 
 .basket-entry-summary {
-  font-family: Roboto, sans-serif;
   font-size: 16px;
   position: absolute;
   top: 50%;
