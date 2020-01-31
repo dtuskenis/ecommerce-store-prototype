@@ -3,6 +3,10 @@
   height: 28px;
 }
 
+.basket-entry-counter-button:active {
+  color: var(--ion-color-primary);
+}
+
 .basket-entry-quantity {
   margin-left: 8px;
   margin-right: 8px;

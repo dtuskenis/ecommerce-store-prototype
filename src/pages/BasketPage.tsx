@@ -60,7 +60,7 @@ const Content: React.FC<{ basket: Basket | null }> = ({ basket }) => {
       </div>
     } else return <IonList lines="none">
       { basket.entries.map(basketEntry => {
-        return <IonCard key={`${basketEntry.product.id}${basketEntry.quantity}`}>
+        return <IonCard key={`${basketEntry.product.id}`}>
             <IonItem className="basket-entry-title">
                 <div>
                     <IonImg className="list-item-image" src={ basketEntry.product.imageUrl } />
