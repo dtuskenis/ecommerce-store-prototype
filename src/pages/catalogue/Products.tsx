@@ -15,7 +15,7 @@ import "./Products.css"
 
 import BasketManager from "../../data/BasketManager";
 import Product from "../../data/Product";
-import ProductsManager from "../../data/ProductsManager";
+import CatalogueManager from "../../data/CatalogueManager";
 import { arrowForward } from "ionicons/icons";
 
 const Products: React.FC<{ categoryId: number | null, query: string }> = ({ categoryId, query }) => {
@@ -24,7 +24,7 @@ const Products: React.FC<{ categoryId: number | null, query: string }> = ({ cate
 
     useEffect(() => {
         setProducts(null);
-        const subscription = ProductsManager.getProducts(categoryId).subscribe(products => setProducts(products));
+        const subscription = CatalogueManager.getProducts(categoryId).subscribe(products => setProducts(products));
         return () => subscription.unsubscribe()
     }, [categoryId, query]);
 

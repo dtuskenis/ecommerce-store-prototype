@@ -1,11 +1,15 @@
 import {BehaviorSubject, defer, Observable} from "rxjs";
+import {debounceTime, shareReplay, switchMap} from "rxjs/operators";
+import {fromPromise} from "rxjs/internal-compatibility";
 import Product from "./Product";
-import {debounceTime, switchMap} from "rxjs/operators";
 import RemoteApi from "./RemoteApi";
 
 const searchQuery = new BehaviorSubject<string>("");
 
-const ProductsManager = {
+const CatalogueManager = {
+
+    categories: defer(() => fromPromise(RemoteApi.get("categories", {}, null)))
+                    .pipe(shareReplay()),
 
     getProducts(categoryId: number | null): Observable<Array<Product>> {
         
@@ -28,4 +32,4 @@ const ProductsManager = {
     }
 };
 
-export default ProductsManager;
+export default CatalogueManager;

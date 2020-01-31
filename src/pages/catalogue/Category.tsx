@@ -12,7 +12,7 @@ import {
 
 import Products from "./Products";
 
-import ProductsManager from "../../data/ProductsManager";
+import CatalogueManager from "../../data/CatalogueManager";
 import SearchBar from "../../widgets/SearchBar";
 
 const Category: React.FC<RouteComponentProps<{ id: string }>> = (props) => {
@@ -20,7 +20,7 @@ const Category: React.FC<RouteComponentProps<{ id: string }>> = (props) => {
     const [query, setQuery] = useState<string>("");
 
     useEffect(() => {
-        ProductsManager.updateQuery(query);
+        CatalogueManager.updateQuery(query);
     }, [query]);
 
     return <IonPage>

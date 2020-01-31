@@ -10,14 +10,14 @@ import {
 import Categories from "./Categories";
 import Products from "./Products";
 import SearchBar from "../../widgets/SearchBar";
-import ProductsManager from "../../data/ProductsManager";
+import CatalogueManager from "../../data/CatalogueManager";
 
 function Catalogue() {
 
     const [query, setQuery] = useState<string>("");
 
     useEffect(() => {
-        ProductsManager.updateQuery(query)
+        CatalogueManager.updateQuery(query)
     }, [query]);
 
     return <IonPage>
