@@ -1,0 +1,47 @@
+.authentication-input {
+    width: 100%;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    margin-left: -50%;
+}
+
+.authentication-input-label {
+    font-size: 16px;
+}
+
+.authentication-input-container {
+    --padding-start: 0;
+    --padding-end: 0;
+}
+
+.authentication-segment {
+    --padding-start: 32px;
+    --padding-end: 32px;
+    --padding-top: 16px;
+    --padding-bottom: 16px;
+}
+
+.authentication-submit-container {
+    --padding-start: 0;
+    --padding-end: 0;
+    --padding-top: 24px;
+    --padding-bottom: 8px;
+    outline: #eb5424 solid 1px;
+}
+
+.authentication-submit-button {
+    --padding-start: 0;
+    --padding-end: 0;
+    width: calc(100% - 32px);
+    position: absolute;
+    left: 50%;
+    margin-left: calc(-50% + 16px);
+    margin-top: 16px;
+    height: 42px;
+}
+
+.authentication-view {
+    padding-left: 16px;
+    padding-right: 16px;
+}

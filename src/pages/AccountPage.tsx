@@ -14,7 +14,7 @@ import {
 import "./AccountPage.css"
 
 import UserManager from "../data/UserManager";
-import {Authenticator} from "aws-amplify-react";
+import AuthenticationView from "./authentication/AuthenticationView";
 
 const AccountPage: React.FC = () => {
   return (
@@ -24,9 +24,7 @@ const AccountPage: React.FC = () => {
           <IonTitle>Аккаунт</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent>
-          <Content />
-      </IonContent>
+      <Content/>
     </IonPage>
   );
 };
@@ -42,14 +40,14 @@ const Content: React.FC = () => {
     const [loginState, setLoginState] = useState(LoginState.UNKNOWN);
 
     useEffect(() => {
-        UserManager.getUser()
-                   .then(user => {
-                       if (user) {
-                           setLoginState(LoginState.LOGGED_IN)
-                       } else {
-                           setLoginState(LoginState.NOT_LOGGED_IN)
-                       }
-                   });
+        const subscription = UserManager.user().subscribe(user => {
+            if (user) {
+                setLoginState(LoginState.LOGGED_IN)
+            } else {
+                setLoginState(LoginState.NOT_LOGGED_IN)
+            }
+        });
+        return () => subscription.unsubscribe()
     }, []);
 
     const logout = () => {
@@ -62,31 +60,27 @@ const Content: React.FC = () => {
                 <IonSpinner name="dots"/>
             </div>;
         case LoginState.NOT_LOGGED_IN:
-            return <Authenticator onStateChange={ (authState) => {
-
-                if (authState === "signedIn") {
-                    setLoginState(LoginState.LOGGED_IN);
-                    UserManager.updateUser()
-                }
-            } }/>;
+            return <AuthenticationView />;
         case LoginState.LOGGED_IN:
-            return <IonList>
-                <IonItem routerLink="/account/profile">
-                    <IonLabel>
-                        <h2>Профиль</h2>
-                    </IonLabel>
-                </IonItem>
-                <IonItem routerLink="/account/orders">
-                    <IonLabel>
-                        <h2>История заказов</h2>
-                    </IonLabel>
-                </IonItem>
-                <IonItem onClick={ () => logout()  }>
-                    <IonLabel color="danger">
-                        <h2>Выйти</h2>
-                    </IonLabel>
-                </IonItem>
-            </IonList>;
+            return <IonContent>
+                <IonList>
+                    <IonItem routerLink="/account/profile">
+                        <IonLabel>
+                            <h2>Профиль</h2>
+                        </IonLabel>
+                    </IonItem>
+                    <IonItem routerLink="/account/orders">
+                        <IonLabel>
+                            <h2>История заказов</h2>
+                        </IonLabel>
+                    </IonItem>
+                    <IonItem onClick={ () => logout()  }>
+                        <IonLabel color="danger">
+                            <h2>Выйти</h2>
+                        </IonLabel>
+                    </IonItem>
+                </IonList>
+            </IonContent>;
     }
 };
 
