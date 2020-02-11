@@ -10,6 +10,10 @@
     <dict>
         <key>appURL</key>
         <string>https://ecommerce-store-mobile-builds.s3-us-west-2.amazonaws.com/ios/{BUILD_NUMBER_PLACE}/ecommerce-store-{BUILD_NUMBER_PLACE}.ipa</string>
+        <key>displayImageURL</key>
+        <string>https://ecommerce-store-mobile-builds.s3-us-west-2.amazonaws.com/ios/{BUILD_NUMBER_PLACE}/displayImage.png</string>
+        <key>fullSizeImageURL</key>
+        <string>https://ecommerce-store-mobile-builds.s3-us-west-2.amazonaws.com/ios/{BUILD_NUMBER_PLACE}/fullSizeImage.png</string>
     </dict>
     <key>method</key>
     <string>development</string>
